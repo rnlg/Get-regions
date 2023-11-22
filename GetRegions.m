@@ -48,10 +48,10 @@ ns=-Cross@@Rest[#]/First[#] . (Cross@@Rest[#])&/@(PickBasis[Differences[Prepend[
 Close[file];LCM@@Abs[Denominator[#]]/GCD@@Abs[Numerator[#]]*#&/@ns]
 
 
-GetRegions::usage="GetRegions[{p1,p2,..pk},{x1,x2,...xn}, a] detects regions in the asymptotic expansion of the integral \!\(\*FormBox[\(\(\*
-StyleBox[
-RowBox[{
-RowBox[{\"\[Integral]\", SubscriptBox[\"dx\", \"1\"]}], \"...\"}], \"TI\"] \*SubscriptBox[
+GetRegions::usage="GetRegions[{p1,p2,..pk},{x1,x2,...xn}, a] detects regions in the asymptotic expansion of the integral \!\(\*FormBox[\(\(\(\*UnderscriptBox[
+StyleBox[\"\[Integral]\", \"TI\"], SubsuperscriptBox[\"\[DoubleStruckCapitalR]\", \"+\", \"n\"]]\*
+StyleBox[SubscriptBox[\"dx\", \"1\"], \"TI\"]\*
+StyleBox[\"...\", \"TI\"]\) \*SubscriptBox[
 StyleBox[\"dx\", \"TI\"], \"n\"] \*SubsuperscriptBox[
 StyleBox[\"p\", \"TI\"], \"1\", SubscriptBox[\"\[Alpha]\", \"1\"]] ... \) \*SubsuperscriptBox[
 StyleBox[\"p\", \"TI\"], \"1\", SubscriptBox[\"\[Beta]\", \"1\"]]\\\ in\\\ the\\\ limit\\\ \*
