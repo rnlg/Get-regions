@@ -38,10 +38,10 @@ StyleBox[SubscriptBox[\"dx\", \"1\"], \"TI\"]\*
 StyleBox[\"...\", \"TI\"]\) \*SubscriptBox[
 StyleBox[\"dx\", \"TI\"], \"n\"] \*SubsuperscriptBox[
 StyleBox[\"p\", \"TI\"], \"1\", SubscriptBox[\"\[Alpha]\", \"1\"]] ... \) \*SubsuperscriptBox[
-StyleBox[\"p\", \"TI\"], \"1\", SubscriptBox[\"\[Beta]\", \"1\"]]\\\ in\\\ the\\\ limit\\\ \*
+StyleBox[\"p\", \"TI\"], \"k\", SubscriptBox[\"\[Alpha]\", \"k\"]]\\\ in\\\ the\\\ limit\\\ \*
 StyleBox[\"a\", \"TI\"] \[Rule] 0\),
 TraditionalForm]\). 
-The result is the scaling powers of polynomials and variables for each region." 
+By default, the result is the scaling powers of polynomials and variables for each region." 
 GetRegions::poly="GetRegions works only for polynomial functions of both variables and small parameters.";
 GetRegions::zero="The integral is scaleless! Returning scaling";
 Options[GetRegions]={OutputForm->Exponent};
@@ -74,6 +74,3 @@ CollectFactors[ex_,xs_,f_:Identity]:=Times@@(Collect[#,xs,f]^#2&@@@Factors[ex])
 
 End[]
 EndPackage[]
-
-
-
