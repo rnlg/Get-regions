@@ -74,6 +74,3 @@ CollectFactors[ex_,xs_,f_:Identity]:=Times@@(Collect[#,xs,f]^#2&@@@Factors[ex])
 
 End[]
 EndPackage[]
-
-
-
