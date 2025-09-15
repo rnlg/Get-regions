@@ -1,0 +1,32 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: GetRegions
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Roman
+    family-names: Lee
+    email: roman.n.lee@gmail.com
+    orcid: 'https://orcid.org/0000-0001-5287-4605'
+abstract: >-
+
+  Re-implementation of the approach of Refs. [1,2] for the
+  case of several polynomials and integration over
+  $\mathbb{R}_+^n$.
+
+
+  [1] Pak, A., Smirnov, A. Geometric approach to asymptotic
+  expansion of Feynman integrals. Eur. Phys. J. C 71, 1626
+  (2011)
+
+  [2] Semenova, T.Y., Smirnov, A.V. & Smirnov, V.A. On the
+  status of expansion by regions. Eur. Phys. J. C 79, 136
+  (2019)
+keywords:
+  - multiloop calculations
+  - expansion by regions
+license: MIT
