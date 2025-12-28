@@ -3,7 +3,7 @@
 BeginPackage["GetRegions`"]
 
 
-InnerNormals;GetRegions;Factors;CollectFactors;
+InnerNormals;NewtonPolytopeNormals;GetRegions;Factors;CollectFactors;
 
 
 Begin["`Private`"]
@@ -30,6 +30,12 @@ ns=-Cross@@Rest[#]/First[#] . (Cross@@Rest[#])&/@(PickBasis[Differences[Prepend[
 Close[file];LCM@@Abs[Denominator[#]]/GCD@@Abs[Numerator[#]]*#&/@ns]
 
 
+NewtonPolytopeNormals::usage="NewtonPolytopeNormals[poly,vars] gives inner normals of the Newton polytope of poly."
+
+
+NewtonPolytopeNormals[poly_,vars_]:=InnerNormals[First/@CoefficientRules[poly,vars]]
+
+
 GetRegions::usage="GetRegions[{p1,p2,..pk},{x1,x2,...xn}, a] detects regions in the asymptotic expansion of the integral Integrate[p1^a1*p2^a2*...pk^ak,{x1,0,Infty},{x2,0,Infty},...{xn,0,Infty}]. 
 By default, the result is the scaling powers of polynomials and variables for each region. Try GetRegions with option OutputForm->Rule or OutputForm->RuleDelayed."
 
@@ -43,7 +49,7 @@ If[!AllTrue[polys,PolynomialQ[#,pvs]&],Message[GetRegions::poly];Return[$Failed]
 normals=NullSpace[Differences[First/@CoefficientRules[Times@@polys,pvs]]];
 If[normals=!={},
 normals=DeleteCases[RowReduce[normals],{0,___}],
-normals=Cases[InnerNormals[First/@CoefficientRules[Times@@polys,pvs]],s:{_?Positive,__}:>s/First[s]]];
+normals=Cases[NewtonPolytopeNormals[Times@@polys,pvs],s:{_?Positive,__}:>s/First[s]]];
 scalings=MapThread[List,{Transpose@Outer[Min[(First/@CoefficientRules[#,pvs]) . #2]&,polys,normals,1],
 Rest/@normals}];
 Replace[OptionValue[OutputForm],{
