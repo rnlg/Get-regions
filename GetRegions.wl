@@ -3,7 +3,10 @@
 BeginPackage["GetRegions`"]
 
 
-InnerNormals;NewtonPolytopeNormals;GetRegions;Factors;CollectFactors;
+Faces;InnerNormals;NewtonPolytopeNormals;GetRegions;Factors;CollectFactors;
+
+
+Print["GetRegions package by Roman Lee."];
 
 
 Begin["`Private`"]
@@ -11,6 +14,25 @@ Begin["`Private`"]
 
 PickBasis::usage="PickBasis[{v1,...vn}] picks basis among vectors."
 PickBasis[vecs_?MatrixQ]:=Module[{basis={},r=0,new},Scan[(new=Append[basis,#];If[MatrixRank[new]>r,r++;basis=new])&,vecs];basis]
+
+
+Faces::usage="Faces[points] gives a list of faces of the convex hull of points. By default, each face is given by a list of vertices. With option Indexed->True,  each face is given by a list of vertex indices.";
+Options[Faces]={Indexed->False};
+Faces[pts_?MatrixQ,OptionsPattern[]] :=
+  Module[{np,dim,file,str,nf,fs,mp=Total[pts]/Length[pts],in,out},
+{np,dim}=Dimensions@pts;
+file = OpenWrite[];
+WriteString[file,ToString[dim] <> " # dimension\n"];WriteString[file,ToString[np] <> " # number of points\n"];
+str=StringRiffle[StringRiffle[ToString /@#," "]&/@pts,"\n"];
+WriteString[file,str];
+in=Close[file];
+out=Close[OpenWrite[]];
+Run["qconvex Fv" <> " < " <> in <> " > " <> out];
+file=OpenRead[out];
+Read[file,Number];
+fs=Rest[#+1]&/@ReadList[file,Number,RecordLists->True];
+Close[file];
+If[OptionValue[Indexed],fs,Map[pts[[#]]&,fs,{2}]]]
 
 
 InnerNormals::usage="InnerNormals[points] gives inner normals of the convex hull of points."
