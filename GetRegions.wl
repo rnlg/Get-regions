@@ -35,21 +35,34 @@ Close[file];
 If[OptionValue[Indexed],fs,Map[pts[[#]]&,fs,{2}]]]
 
 
+Options[InnerNormals]={Method->"qhull"};
 InnerNormals::usage="InnerNormals[points] gives inner normals of the convex hull of points."
-InnerNormals[pts_?MatrixQ] :=
-  Module[{np,dim,file,str,nf,fs,ns,mp=Total[pts]/Length[pts],in,out},
-{np,dim}=Dimensions@pts;
-file = OpenWrite[];
-WriteString[file,ToString[dim] <> " # dimension\n"];WriteString[file,ToString[np] <> " # number of points\n"];
-str=StringRiffle[StringRiffle[ToString /@#," "]&/@pts,"\n"];
-WriteString[file,str];
-in=Close[file];
-out=Close[OpenWrite[]];
-Run["qconvex Fv" <> " < " <> in <> " > " <> out];
-file=OpenRead[out];
-nf = Read[file,Number];
-ns=-Cross@@Rest[#]/First[#] . (Cross@@Rest[#])&/@(PickBasis[Differences[Prepend[pts[[#]],mp]]]&/@(Rest[#+1]&/@ReadList[file,Number,RecordLists->True]));
-Close[file];LCM@@Abs[Denominator[#]]/GCD@@Abs[Numerator[#]]*#&/@ns]
+InnerNormals[pts_?MatrixQ,OptionsPattern[]] :=
+  Module[{np,dim,file,str,nf,fs,ns,mp,in,out},
+  If[OptionValue[Method]==="normaliz",Return[NormalizInnerNormals[pts]]];
+  mp=Total[pts]/Length[pts];
+  {np,dim}=Dimensions@pts;
+  file = OpenWrite[];
+  WriteString[file,ToString[dim] <> " # dimension\n"];WriteString[file,ToString[np] <> " # number of points\n"];
+  str=StringRiffle[StringRiffle[ToString /@#," "]&/@pts,"\n"];
+  WriteString[file,str];
+  in=Close[file];
+  out=Close[OpenWrite[]];
+  Run["qconvex Fv" <> " < " <> in <> " > " <> out];
+  file=OpenRead[out];
+  nf = Read[file,Number];
+  ns=-Cross@@Rest[#]/First[#] . (Cross@@Rest[#])&/@(PickBasis[Differences[Prepend[pts[[#]],mp]]]&/@(Rest[#+1]&/@ReadList[file,Number,RecordLists->True]));
+  Close[file];
+  Return[LCM@@Abs[Denominator[#]]/GCD@@Abs[Numerator[#]]*#&/@ns]
+  ]
+
+
+If[(lib=FindLibrary["ConvexHullNormaliz"])=!=$Failed,
+NormalizInnerNormals=LibraryFunctionLoad[lib, 
+"NormalizInnerNormals",
+{{Integer, 2, "Constant"}}, {Integer, 2}];
+SetOptions[InnerNormals,Method->"normaliz"];
+]
 
 
 NewtonPolytopeNormals::usage="NewtonPolytopeNormals[poly,vars] gives inner normals of the Newton polytope of poly."
