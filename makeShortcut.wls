@@ -12,11 +12,6 @@ Modification of PACKAGE below should be sufficient when adjusting script to new 
 PACKAGE="GetRegions";
 
 SetDirectory[DirectoryName[$InputFileName]]
-If[FileExistsQ["ConvexHullNormaliz.cpp"],
-Print["Compiling ConvexHullNormaliz.so library..."];
-Needs["CCompilerDriver`"];
-Print["Created \033[4;32m",CCompilerDriver`CreateLibrary[{"ConvexHullNormaliz.cpp"},
-"ConvexHullNormaliz","Libraries"->{"normaliz","gmp"}],"\033[1;0m"]];
 appdir=$UserBaseDirectory <> "/Applications/"<>PACKAGE<>"/";
 file = Join[FileNames[PACKAGE<>"*.wl"],FileNames[PACKAGE<>"*.m"]];
 If[file==={},Print["No "<>PACKAGE<>"*.m or "<>PACKAGE<>"*.wl in "<>Directory[]<>". Changed nothing, quitting..."];Quit[]];
@@ -33,5 +28,8 @@ WriteString[init,"Begin[\""<>PACKAGE<>"`Private`\"]\n\
 End[];"
 ]
 Close[init]
-Print["Installed shortcut for "<>file<>".\nTo load the package, use\n  \033[1;35m<<"<>PACKAGE<>"`\033[1;0m"]
+If[FindLibrary["ConvexHullNormaliz"]===$Failed,
+Print["Consider running \033[1;34mmakeNormaliz.wls\033[1;0m to make ConvexHullNormaliz library."]];
+Print["Installed shortcut for "<>file<>".\nTo load the package, use\n  \033[1;94m<<"<>PACKAGE<>"`\033[1;0m"]
+
 Quit[]

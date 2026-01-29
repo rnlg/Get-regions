@@ -78,7 +78,8 @@ By default, the result is the scaling powers of polynomials and variables for ea
 GetRegions::poly="GetRegions works only for polynomial functions of both variables and small parameters.";
 GetRegions::zero="The integral is scaleless! Returning scaling";
 Options[GetRegions]={OutputForm->Exponent};
-GetRegions[polys_List,vars_List,p_Symbol,OptionsPattern[]]:=Module[{normals,pvs=Prepend[vars,p],nv=Length@vars,ufold,scalings},
+GetRegions[polys_List,vars_List,p_Symbol,OptionsPattern[]]:=Module[
+{normals,pvs=Prepend[vars,p],nv=Length@vars,ufold,scalings},
 If[!AllTrue[polys,PolynomialQ[#,pvs]&],Message[GetRegions::poly];Return[$Failed]];
 (*If the integral is just proportional to a power of small parameter, the polynomial should be homogeneous wrt some scaling*)
 normals=NullSpace[Differences[First/@CoefficientRules[Times@@polys,pvs]]];
