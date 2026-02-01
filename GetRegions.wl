@@ -72,7 +72,7 @@ NewtonPolytopeNormals[poly_,vars_]:=InnerNormals[First/@CoefficientRules[poly,va
 
 
 GetRegions::usage="GetRegions[{p1,p2,..pk},{x1,x2,...xn}, a] detects regions in the asymptotic expansion of the integral Integrate[p1^a1*p2^a2*...pk^ak,{x1,0,Infty},{x2,0,Infty},...{xn,0,Infty}]. 
-By default, the result is the scaling powers of polynomials and variables for each region. Try GetRegions with option OutputForm->Rule or OutputForm->RuleDelayed."
+By default, the result is the scaling powers of polynomials and variables for each region. Try GetRegions with option OutputForm->Rule or OutputForm->RuleDelayed.\n GetRegions[{p1,p2,..pk},{x1,x2,...xn}] detects regions of asimtotics of the integrand of Integrate[p1^a1*p2^a2*...pk^ak,{x1,0,Infty},{x2,0,Infty},...{xn,0,Infty}]. These regions can be used to establish convergence/divergence of the integral."
 
 
 GetRegions::poly="GetRegions works only for polynomial functions of both variables and small parameters.";
@@ -94,6 +94,18 @@ RuleDelayed:>((Function[{pp,vp},{Thread[polys^C_:>Evaluate[(p^(pp*C))Factor[poly
 _->scalings}]
 ]
 GetRegions[poly_,vars_List,p_Symbol,opts:OptionsPattern[]]:={First[#1],#2}&@@@GetRegions[{poly},vars,p,opts]
+
+
+GetRegions[polys_List,vars_List,OptionsPattern[]]:=Module[
+{normals,nv=Length@vars,ufold,scalings},
+If[!AllTrue[polys,PolynomialQ[#,vars]&],Message[GetRegions::poly];Return[$Failed]];
+(*If the integral is just proportional to a power of small parameter, the polynomial should be homogeneous wrt some scaling*)
+normals=NullSpace[Differences[First/@CoefficientRules[Times@@polys,vars]]];
+If[normals=!={},
+Message[GetRegions::scaleless];normals=Join[normals,-normals],
+normals=NewtonPolytopeNormals[Times@@polys,vars]];
+scalings=MapThread[List,{Transpose@Outer[Min[(First/@CoefficientRules[#,vars]) . #2]&,polys,normals,1],normals}]
+]
 
 
 Factors::usage="Factors[ex] does the same as FactorList except that it allows for non-integer powers.\nFactors[ex,{x1,x2,...}] in addition consolidates all factors which do not depend on x1,x2,...";

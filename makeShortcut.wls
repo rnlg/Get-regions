@@ -29,7 +29,7 @@ End[];"
 ]
 Close[init]
 If[FindLibrary["ConvexHullNormaliz"]===$Failed,
-Print["Consider running \033[1;34mmakeNormaliz.wls\033[1;0m to make ConvexHullNormaliz library."]];
+Print["Consider running \033[1;34mNormaliz/makeNormaliz.wls\033[1;0m to make ConvexHullNormaliz library."]];
 Print["Installed shortcut for "<>file<>".\nTo load the package, use\n  \033[1;94m<<"<>PACKAGE<>"`\033[1;0m"]
 
 Quit[]
