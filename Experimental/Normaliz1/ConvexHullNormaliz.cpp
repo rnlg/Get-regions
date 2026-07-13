@@ -1,27 +1,12 @@
 #include "WolframLibrary.h"
 #include "libnormaliz/libnormaliz.h"
-#include "normaliz_paths.h"
+//#include "normaliz_paths.h"
 #include <vector>
-#include <dlfcn.h>
+// #include <dlfcn.h>
 
 EXTERN_C DLLEXPORT mint WolframLibrary_getVersion() { return WolframLibraryVersion; }
 EXTERN_C DLLEXPORT int WolframLibrary_initialize(WolframLibraryData libData) { return LIBRARY_NO_ERROR; }
 EXTERN_C DLLEXPORT void WolframLibrary_uninitialize(WolframLibraryData libData) {}
-
-static void* load_lib(const char* env, const char* path, const char* name) {
-    const char* p = getenv(env);
-    void* h = p ? dlopen(p, RTLD_NOW|RTLD_GLOBAL|RTLD_DEEPBIND) : nullptr;
-    if (!h) h = dlopen(path, RTLD_NOW|RTLD_GLOBAL|RTLD_DEEPBIND);
-    if (!h) h = dlopen(name, RTLD_NOW|RTLD_GLOBAL|RTLD_DEEPBIND);
-    return h;
-}
-
-__attribute__((constructor))
-static void init() {
-    load_lib("NORMALIZ_LIBGMP", NORMALIZ_LIBGMP_PATH, "libgmp.so.10");
-    load_lib("NORMALIZ_LIBGMPXX", NORMALIZ_LIBGMPXX_PATH, "libgmpxx.so.4");
-    load_lib("NORMALIZ_LIBNORMALIZ", NORMALIZ_LIBNORMALIZ_PATH, "libnormaliz.so.3");
-}
 
 EXTERN_C DLLEXPORT int NormalizInnerNormals(WolframLibraryData libData, mint Argc, MArgument *Args, MArgument Res) {
     if (Argc != 1) return LIBRARY_FUNCTION_ERROR;

@@ -2,8 +2,8 @@
 #ifndef NORMALIZ_PATHS_H
 #define NORMALIZ_PATHS_H
 
-#define NORMALIZ_LIBGMP_PATH "/usr/lib/x86_64-linux-gnu/libgmp.so.10"
-#define NORMALIZ_LIBGMPXX_PATH "/usr/lib/x86_64-linux-gnu/libgmpxx.so.4"
-#define NORMALIZ_LIBNORMALIZ_PATH "/usr/local/lib/libnormaliz.so.3"
+#define NORMALIZ_LIBGMP_PATH "/usr/lib/x86_64-linux-gnu/libgmp.so"
+#define NORMALIZ_LIBGMPXX_PATH "/usr/lib/x86_64-linux-gnu/libgmpxx.so"
+// #define NORMALIZ_LIBNORMALIZ_PATH ""
 
 #endif
