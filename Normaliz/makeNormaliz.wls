@@ -17,6 +17,6 @@ path=CCompilerDriver`CreateLibrary[{"ConvexHullNormaliz.cpp"},
 Print["\033[1;;0mChecking ConvexHullNormaliz library...\033[0;91m"];
 Check[
 LibraryFunctionLoad[FindLibrary["ConvexHullNormaliz"], "NormalizInnerNormals", {{Integer, 2, "Constant"}}, {Integer, 2}];
-, Print["Compilation error."];Quit[]];
+, Print["Compilation error."];Quiet[DeleteFile[FindLibrary["ConvexHullNormaliz"]]];Quit[]];
 Print["\033[1;0mCreated ",FileNameTake[path]," \033[4;94m\033]8;;file://",DirectoryName[path],"\033\\here\033]8;;\033\\.\033[1;0m"]];
 Quit[]
