@@ -1,12 +1,19 @@
 #include "WolframLibrary.h"
 #include "libnormaliz/libnormaliz.h"
-//#include "normaliz_paths.h"
+#include "lib_paths.h"
 #include <vector>
-// #include <dlfcn.h>
+#include <dlfcn.h>
 
 EXTERN_C DLLEXPORT mint WolframLibrary_getVersion() { return WolframLibraryVersion; }
 EXTERN_C DLLEXPORT int WolframLibrary_initialize(WolframLibraryData libData) { return LIBRARY_NO_ERROR; }
 EXTERN_C DLLEXPORT void WolframLibrary_uninitialize(WolframLibraryData libData) {}
+
+__attribute__((constructor))
+static void init() {
+    dlopen(NORMALIZ_LIBGMP_PATH, RTLD_NOW|RTLD_GLOBAL|RTLD_DEEPBIND);
+    dlopen(NORMALIZ_LIBGMPXX_PATH, RTLD_NOW|RTLD_GLOBAL|RTLD_DEEPBIND);
+    dlopen(NORMALIZ_LIBNORMALIZ_PATH, RTLD_NOW|RTLD_GLOBAL|RTLD_DEEPBIND);
+}
 
 EXTERN_C DLLEXPORT int NormalizInnerNormals(WolframLibraryData libData, mint Argc, MArgument *Args, MArgument Res) {
     if (Argc != 1) return LIBRARY_FUNCTION_ERROR;

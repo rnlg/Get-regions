@@ -89,7 +89,7 @@ normals=Cases[NewtonPolytopeNormals[Times@@polys,pvs],s:{_?Positive,__}:>s/First
 scalings=MapThread[List,{Transpose@Outer[Min[(First/@CoefficientRules[#,pvs]) . #2]&,polys,normals,1],
 Rest/@normals}];
 Replace[OptionValue[OutputForm],{
-Rule->({Thread[polys->(p^(#1))Factor[polys/(p^#1)/.Thread[vars->p^#2 vars]]],Thread[vars->p^#2 vars]}&@@@scalings),
+Rule:>({Thread[polys->(p^(#1))Factor[polys/(p^#1)/.Thread[vars->p^#2 vars]]],Thread[vars->p^#2 vars]}&@@@scalings),
 RuleDelayed:>((Function[{pp,vp},{Thread[polys^C_:>Evaluate[(p^(pp*C))Factor[polys/(p^pp)/.Thread[vars->p^vp vars]]^C]],Thread[vars->p^vp vars]}]@@@scalings)&[Unique["n"]]),
 _->scalings}]
 ]
@@ -105,7 +105,8 @@ If[normals=!={},
 Message[GetRegions::scaleless];normals=Join[normals,-normals],
 normals=NewtonPolytopeNormals[Times@@polys,vars]];
 scalings=MapThread[List,{Transpose@Outer[Min[(First/@CoefficientRules[#,vars]) . #2]&,polys,normals,1],normals}]
-]
+];
+GetRegions[poly_,vars_List,opts:OptionsPattern[]]:={First[#1],#2}&@@@GetRegions[{poly},vars,opts]
 
 
 Factors::usage="Factors[ex] does the same as FactorList except that it allows for non-integer powers.\nFactors[ex,{x1,x2,...}] in addition consolidates all factors which do not depend on x1,x2,...";

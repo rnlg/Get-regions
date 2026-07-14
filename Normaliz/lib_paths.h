@@ -2,6 +2,8 @@
 #ifndef NORMALIZ_PATHS_H
 #define NORMALIZ_PATHS_H
 
+// compilation-time paths to system gmz and normaliz libraries:
+
 #define NORMALIZ_LIBGMP_PATH "/usr/lib/x86_64-linux-gnu/libgmp.so"
 #define NORMALIZ_LIBGMPXX_PATH "/usr/lib/x86_64-linux-gnu/libgmpxx.so"
 #define NORMALIZ_LIBNORMALIZ_PATH "/lib/libnormaliz.so"
