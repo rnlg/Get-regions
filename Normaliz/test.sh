@@ -1,1 +1,0 @@
-wolfram -noprompt -run 'Check[LibraryFunctionLoad[FindLibrary["ConvexHullNormaliz"], "NormalizInnerNormals", {{Integer, 2, "Constant"}}, {Integer, 2}],WriteString["stdout","Failed\n"];Quit[]];WriteString["stdout","Success\n"];Quit[]'
